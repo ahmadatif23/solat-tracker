@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const { user, loading, setLoading } = useAuth();
@@ -58,7 +59,18 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+        <div className="mx-auto h-24 w-auto relative">
+          <Image
+            src="/icon.png"
+            alt="Your Company"
+            width={900}
+            height={900}
+            priority
+            className="mx-auto h-24 w-auto"
+          />
+        </div>
+
+        <h2 className="mt-2 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
           Create your account
         </h2>
       </div>
