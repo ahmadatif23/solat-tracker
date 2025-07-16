@@ -1,0 +1,139 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+
+export default function RegisterPage() {
+  const { user, loading, setLoading } = useAuth();
+
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [error, setError] = useState("");
+
+  // 🔁 Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/");
+    }
+  }, [user, loading, router]);
+
+  // ⏳ Block rendering during redirect or auth check
+  if (user) return null;
+
+  const register = async () => {
+    setError("");
+
+    if (!email || !pass) {
+      setError("Email and password are required.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await createUserWithEmailAndPassword(auth, email, pass);
+      const token = await res.user.getIdToken();
+
+      await fetch("/api/set-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex min-h-full flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          Create your account
+        </h2>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+        <div className="bg-white px-6 py-12 shadow-md rounded-lg sm:px-12 relative overflow-hidden">
+          <form action="#" method="POST" className="space-y-2">
+            <div>
+              <label htmlFor="email" className="form-label">
+                Email address
+              </label>
+
+              <div className="mt-2">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={email}
+                  required
+                  autoComplete="email"
+                  className="form"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+
+              <div className="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={pass}
+                  required
+                  autoComplete="current-password"
+                  className="form"
+                  onChange={(e) => setPass(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 relative">
+              {error && (
+                <div className="absolute inset-0 translate-y-full">
+                  <p className="text-sm text-red-500 mt-1">{error}</p>
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="btn-primary w-full"
+                onClick={register}
+              >
+                Register
+              </button>
+            </div>
+          </form>
+
+          <div>
+            <p className="mt-10 text-center text-sm/6 text-gray-500">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="font-semibold text-primary hover:text-light"
+              >
+                Log in
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
