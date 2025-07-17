@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/login", "register"];
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("__session")?.value;

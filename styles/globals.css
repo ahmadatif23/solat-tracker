@@ -24,17 +24,20 @@
 }
 
 @layer components {
+  .card {
+    @apply bg-white px-6 py-12 shadow-md rounded-xl sm:px-12 relative overflow-hidden;
+  }
   .form-label {
     @apply block text-sm/6 font-medium text-gray-900;
   }
   .form {
-    @apply block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6;
+    @apply block w-full rounded-xl bg-white px-3 py-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-slate-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6;
   }
   .btn-primary {
-    @apply flex justify-center rounded-md bg-primary px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-light focus-visible:outline-2 focus-visible:outline-offset-2;
+    @apply flex justify-center rounded-xl bg-primary px-3 py-3 text-sm/6 font-semibold text-white shadow-xs hover:bg-light focus-visible:outline-2 focus-visible:outline-offset-2;
   }
   .btn-secondary {
-    @apply flex justify-center rounded-md bg-secondary px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-secondary-light focus-visible:outline-2 focus-visible:outline-offset-2;
+    @apply flex justify-center rounded-xl bg-secondary px-3 py-3 text-sm/6 font-semibold text-white shadow-xs hover:bg-secondary-light focus-visible:outline-2 focus-visible:outline-offset-2;
   }
 }
 

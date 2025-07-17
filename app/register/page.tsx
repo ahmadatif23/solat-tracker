@@ -44,7 +44,7 @@ export default function RegisterPage() {
         body: JSON.stringify({ token }),
       });
 
-      router.push("/dashboard");
+      router.push("/");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -76,14 +76,14 @@ export default function RegisterPage() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-        <div className="bg-white px-6 py-12 shadow-md rounded-lg sm:px-12 relative overflow-hidden">
+        <div className="card">
           <form action="#" method="POST" className="space-y-2">
             <div>
               <label htmlFor="email" className="form-label">
                 Email address
               </label>
 
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="email"
                   name="email"
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                 Password
               </label>
 
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="password"
                   name="password"
